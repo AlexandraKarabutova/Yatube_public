@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block title %}
+  Последние обновления на сайте
+{% endblock %}
+{% block content %}
+<div class="container">
+  <h1 class="my-4"> Последние обновления на сайте </h1>
+  {% include 'posts/includes/switcher.html' %}
+  {% load cache %}
+  {% cache 20 sidebar %}
+  {% for post in page_obj %}
+    <ul>
+      <li>
+        Автор: {{ post.author.get_full_name }}
+        <a href="{% url 'posts:profile' post.author %}">
+          Все посты пользователя
+        </a>
+      </li>
+      {% include 'posts/includes/post_card.html' %}
+      {% include 'posts/includes/comment_card.html' %}
+      <a href="{% url 'posts:post_detail' post.pk %}">Подробная информация </a>
+      {% if post.group %}
+        <article> <a href="{% url 'posts:group_list' post.group.slug %}">Все записи группы</a> </article>
+      {% endif %}
+      {% comment %} {% include 'posts/includes/comment_card.html' %} {% endcomment %}
+      {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %}  
+  {% endcache %}
+  {% include 'posts/includes/paginator.html' %}
+{% endblock %}

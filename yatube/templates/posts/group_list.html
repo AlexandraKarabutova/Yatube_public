@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load static %}
+{% block title %}
+  {{ group.title }}
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h1 class="my-4"> {{ group.title }} </h1>
+    <p> {{ group.description }} </p>
+    {% for post in page_obj %}
+      <ul>
+        <li>
+          Автор: {{ post.author.get_full_name }} 
+          <a href="{% url 'posts:profile' post.author %}">
+            Все посты пользователя
+          </a>
+        </li>
+        {% include 'posts/includes/post_card.html' %}
+        {% include 'posts/includes/comment_card.html' %}
+        <a href="{% url 'posts:post_detail' post.pk %}">Подробная информация </a>
+      {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}   
+    {% include 'posts/includes/paginator.html' %}
+{% endblock %}

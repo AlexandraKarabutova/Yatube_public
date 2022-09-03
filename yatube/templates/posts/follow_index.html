@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}
+  Последние обновления избранных авторов
+{% endblock title %}
+{% block content %}
+<div class="container">
+  <h1 class="my-4"> Последние обновления избранных авторов </h1>
+  {% include 'posts/includes/switcher.html' %}
+  {% if page_obj %}
+    {% for post in page_obj %}
+      <ul>
+        <li>
+          Автор: {{ post.author.get_full_name }}
+          <a href="{% url 'posts:profile' post.author %}">
+            Все посты пользователя
+          </a>
+        </li>
+      {% include 'posts/includes/post_card.html' %}
+      {% include 'posts/includes/comment_card.html' %}
+      <a href="{% url 'posts:post_detail' post.pk %}">Подробная информация </a>
+      {% if post.group %}
+      <article> <a href="{% url 'posts:group_list' post.group.slug %}">Все записи группы</a> </article>
+      {% endif %}
+
+      {% if not forloop.last %} <hr> {% endif %}
+    {% endfor %}  
+  {% else %}
+  <div class="alert alert-primary" role="alert">
+    <h4 class="alert-heading">Упс!</h4>
+    <p>Кажется на данный момент у вас отсутствуют избранные авторы или у них нет постов.</p>
+    <hr>
+    <p class="mb-0">Чтобы подписаться и добавить автора нажмите на соответствующую кнопку <a href={% url 'posts:profile' username='admin' %} class="alert-link">в профайле пользователя</a>.</p>
+  </div>
+  {% endif %}  
+</div>
+{% include 'posts/includes/paginator.html' %}
+{% endblock content %}
