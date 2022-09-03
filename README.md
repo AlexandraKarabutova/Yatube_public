@@ -13,10 +13,10 @@
 ## Как запустить проект:
 Клонировать репозиторий и перейти в него в командной строке:
 ```
-git clone https://github.com/AlexandraKarabutova/yatube.git
+git clone https://github.com/AlexandraKarabutova/Yatube_public.git
 ```
 ```
-cd yatube
+cd Yatube_public
 ```
 Cоздать и активировать виртуальное окружение:
 ```
